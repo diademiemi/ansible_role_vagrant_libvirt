@@ -46,3 +46,10 @@
   args:
     chdir: /tmp
   when: ansible_os_family == "RedHat"
+
+- name: Install virt-manager
+  become: true
+  ansible.builtin.yum:
+    name: virt-manager
+    state: present
+  when: ansible_os_family == "RedHat"
