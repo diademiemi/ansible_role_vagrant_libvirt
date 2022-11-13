@@ -1,0 +1,4 @@
+vagrant_install_libvirt: true
+
+vagrant_libvirt_user: "{{ ansible_user_id }}"
+vagrant_libvirt_add_user_to_group: true

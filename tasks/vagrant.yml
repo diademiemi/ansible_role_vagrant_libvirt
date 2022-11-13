@@ -1,0 +1,34 @@
+---
+- name: Add ignore vagrant-libvirt to DNF config
+  become: true
+  ansible.builtin.lineinfile:
+    path: /etc/dnf/dnf.conf
+    regexp: "^exclude="
+    line: "exclude=vagrant-libvirt"
+  when: ansible_os_family == "RedHat"
+
+- name: Add Hashicorp repository
+  become: true
+  ansible.builtin.yum_repository:
+    name: hashicorp
+    description: Hashicorp repository
+    baseurl: https://rpm.releases.hashicorp.com/fedora/hashicorp.repo
+    gpgcheck: true
+    gpgkey: https://rpm.releases.hashicorp.com/gpg
+    enabled: true
+  when: ansible_os_family == "RedHat"
+
+- name: Install Vagrant
+  become: true
+  ansible.builtin.yum:
+    name:
+      - "@virtualization"
+      - vagrant
+      - guestfs-tools
+      - ruby-libs
+      - rubygem-fog-libvirt
+      - rubygem-nokogiri
+      - rubygem-rexml
+      - rubygems
+    state: present
+  when: ansible_os_family == "RedHat"

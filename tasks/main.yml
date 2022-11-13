@@ -1,0 +1,6 @@
+---
+- name: Import install Vagrant tasks
+  include_tasks: vagrant.yml
+- name: Import Libvirt tasks tasks
+  include_tasks: libvirt.yml
+  when: vagrant_install_libvirt | bool

@@ -1,0 +1,48 @@
+---
+- name: Install Vagrant
+  become: true
+  ansible.builtin.yum:
+    name:
+      - gcc
+      - libvirt-devel
+      - libxml2-devel
+      - make
+      - ruby-devel
+      - byacc
+      - cmake
+      - gcc-c++
+      - wget
+      - zlib-devel
+    state: present
+  when: ansible_os_family == "RedHat"
+
+- name: Make sure libvirt is installed
+  become: true
+  ansible.builtin.yum:
+    name: libvirt
+    state: present
+  when: ansible_os_family == "RedHat"
+
+- name: Make sure libvirt is running
+  become: true
+  ansible.builtin.service:
+    name: libvirtd
+    state: started
+    enabled: true
+  when: ansible_os_family == "RedHat"
+
+- name: Add user to libvirt group
+  become: true
+  ansible.builtin.user:
+    name: "{{ vagrant_libvirt_user }}"
+    groups: libvirt
+    append: true
+  when: ansible_os_family == "RedHat"
+
+- name: Install Libvirt plugin
+  become: true
+  become_user: "{{ vagrant_libvirt_user }}"
+  ansible.builtin.command: vagrant plugin install vagrant-libvirt
+  args:
+    chdir: /tmp
+  when: ansible_os_family == "RedHat"
