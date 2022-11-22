@@ -1,5 +1,5 @@
 ---
-- name: Install Vagrant
+- name: Install dependencies
   become: true
   ansible.builtin.yum:
     name:
