@@ -12,7 +12,7 @@
   ansible.builtin.yum_repository:
     name: hashicorp
     description: Hashicorp repository
-    baseurl: https://rpm.releases.hashicorp.com/fedora/hashicorp.repo
+    baseurl: https://rpm.releases.hashicorp.com/fedora/$releasever
     gpgcheck: true
     gpgkey: https://rpm.releases.hashicorp.com/gpg
     enabled: true
